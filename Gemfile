@@ -10,7 +10,6 @@ gem "importmap-rails"
 gem "turbo-rails"
 gem "stimulus-rails"
 gem "jbuilder"
-gem "tzinfo-data", platforms: %i[ windows jruby ]
 gem "bootsnap", require: false
 gem "sassc-rails"
 gem 'bootstrap-sass', '3.3.6'
@@ -23,6 +22,7 @@ gem 'omniauth-rails_csrf_protection'
 gem 'line-bot-api'
 gem 'dotenv-rails', require: 'dotenv/rails-now'
 gem 'rails-i18n' # 今回はこのgemを追加しています。
+gem "tzinfo-data", platforms: %i[ mswin mswin64 mingw x64_mingw jruby ]
 
 
 group :development, :test do
