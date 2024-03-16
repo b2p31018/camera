@@ -20,7 +20,7 @@ gem 'rails-i18n'
 gem 'omniauth-line'
 gem 'omniauth-rails_csrf_protection'
 gem 'line-bot-api'
-gem 'dotenv-rails', require: 'dotenv/rails-now'
+gem 'dotenv-rails', require: 'dotenv/load' 
 gem 'rails-i18n' # 今回はこのgemを追加しています。
 gem "tzinfo-data", platforms: %i[ mswin mswin64 mingw x64_mingw jruby ]
 
