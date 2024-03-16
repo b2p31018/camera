@@ -1,0 +1,11 @@
+<% provide(:title, "Top") %>
+<div class="jumbotron jumbotron-fluid" style="background-image: url('<%= asset_path('top.jpg') %>'); background-size: cover; text-align: left;">
+  <div class="container" style="font-family: 'Arial Black', sans-serif;">
+    <h1 class="display-4" style="text-align: left; color: black; font-family: 'Impact', sans-serif; font-weight: bold; font-style: italic;">カメラ転売</h1>
+    <h1 class="display-4" style="text-align: left; color: black; font-family: 'Impact', sans-serif; font-weight: bold; font-style: italic;">外注管理システム</h1>
+    <p class="lead" style="font-family: 'Arial Black', sans-serif; color: black;">このアプリケーションでは、</p>
+    <p class="lead" style="font-family: 'Arial Black', sans-serif; color: black;">　　　　　　商品の登録・配送手配を管理します。</p>
+    <%= link_to "ユーザー登録", signup_path, class: "btn btn-lg btn-dark mr-2", style: "color: black; border-color: black;" , style: "font-size: 1.25rem;" %>
+    <%= link_to "ログイン", login_path, class: "btn btn-lg btn-dark", style: "color: black; border-color: black;"  , style: "font-size: 1.25rem;" %>
+  </div>
+</div>

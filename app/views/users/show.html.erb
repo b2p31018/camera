@@ -1,0 +1,142 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title><%= @user.name %>様の商品リスト</title>
+  <%= csrf_meta_tags %>
+  <%= csp_meta_tag %>
+  <%= stylesheet_link_tag 'application', media: 'all' %>
+  <%= javascript_include_tag 'application' %>
+</head>
+<body>
+
+<div>
+  <table class="table table-bordered table-condensed user-table">
+    <tr>
+      <td><%= @user.name %>様の商品リスト</td>
+    </tr>
+  </table>
+</div>
+
+<div>
+  <% unless current_user.admin? %>
+    <%= link_to '新規登録', new_user_item_path(@user), class: "btn btn-lg btn-dark", style: "color: black; border-color: black;" , style: "font-size: 1.25rem;" %>
+  <% end %>
+  <div class="filter-section">
+    <label>ステータス：</label>
+    <%= select_tag 'status', options_for_select(['全て','登録済み','未手配', '依頼中', '手配済み']), class: 'form-control', id: 'status-filter', style: 'display: inline-block; width: auto;' %>
+  </div>
+  <table class="table table-bordered table-condensed table-hover" id="table-attendances">
+    <thead>
+      <tr>
+        <th>#</th>
+        <th>ステータス</th>
+        <th>商品名</th>
+        <th>購入者名</th>
+        <th>郵便番号</th>
+        <th>都道府県</th>
+        <th>市区町村</th>
+        <th>町名</th>
+        <th>番地・号</th>
+        <th>アパート/建物名</th>
+        <th>部屋番号名</th>
+        <th>電話番号</th>
+        <% if current_user.admin? %>
+          <th>コピー</th>
+        <% end %>
+        <th>配送手配</th>
+      </tr>
+    </thead>
+
+    <tbody id="body-attendances">
+      <% @user.items.each_with_index do |item, index| %>
+        <tr>
+          <td><%= index + 1 %></td>
+          <td><%= item.status %></td>
+          <td><%= item.item_name %></td>
+          <td><%= item.buyer %></td>
+          <td><%= item.zipcode %></td>
+          <td><%= item.address1 %></td>
+          <td><%= item.address2 %></td>
+          <td><%= item.address3 %></td>
+          <td><%= item.banchi %></td>
+          <td><%= item.tatemono_name %></td>
+          <td><%= item.room_num %></td>
+          <td><%= item.tel %></td>
+          <% if current_user.admin? %>
+            <% if item.status == "依頼中" %>
+              <td>
+                <%= button_to 'コピー', copy_user_item_path(@user, item), method: :post, class: "btn btn-lg btn-dark copy-button", data: { copy_text: "#{item.buyer}, #{item.item_name}, #{item.zipcode}, #{item.address1}, #{item.address2}, #{item.address3}, #{item.banchi}, #{item.tel}" }, style: "color: black; border-color: black;" , style: "font-size: 1.25rem;" %>
+              </td>
+              <td>
+                <%= button_to '配送手配完了', mark_as_arranged_user_item_path(@user, item), method: :put,  class: "btn btn-lg btn-dark", style: "color: black; border-color: black;", style: "font-size: 1.25rem;" %>
+              </td>
+            <% end %>
+          <% else %>
+            <% if item.status == "登録済み" %>
+              <td colspan="2">
+                <%= button_to '配送先登録', edit_user_item_path(@user, item), class: "btn btn-lg btn-dark", style: "color: black; border-color: black;" , method: :get, style: "font-size: 1.25rem;" %>
+              </td>
+            <% end %>
+            <% if item.status == "未手配" %>
+              <td colspan="2">
+                <%= button_to '手配実行', request_arrange_user_item_path(@user, item), method: :put, class: "btn btn-lg btn-dark", style: "color: black; border-color: black;" , style: "font-size: 1.25rem;" %>
+              </td>
+            <% end %>
+          <% end %>
+        </tr>
+      <% end %>
+    </tbody>
+  </table>
+</div>
+
+<script>
+  function copyToClipboard(text) {
+    const textarea = document.createElement('textarea');
+    textarea.value = text;
+    document.body.appendChild(textarea);
+    textarea.select();
+    document.execCommand('copy');
+    document.body.removeChild(textarea);
+  }
+
+  // コピーボタンがクリックされたときの処理
+  document.addEventListener('DOMContentLoaded', function() {
+    const copyButtons = document.querySelectorAll('.copy-button');
+
+    copyButtons.forEach(function(button) {
+      button.addEventListener('click', function() {
+        const textToCopy = button.dataset.copyText;
+        copyToClipboard(textToCopy);
+        alert('コピーが完了しました！');
+      });
+    });
+  });
+
+  // ステータスフィルタリング
+  document.addEventListener('DOMContentLoaded', function() {
+    var statusFilter = document.getElementById('status-filter');
+    var tableRows = document.querySelectorAll('#body-attendances tr');
+
+    statusFilter.addEventListener('change', function() {
+      var selectedStatus = statusFilter.value;
+
+      tableRows.forEach(function(row) {
+        var rowStatus = row.cells[1].textContent;
+
+        if (selectedStatus === '全て' || rowStatus === selectedStatus) {
+          row.style.display = '';
+        } else {
+          row.style.display = 'none';
+        }
+      });
+    });
+
+    // ページロード時に初期状態で全ての行を表示
+    statusFilter.dispatchEvent(new Event('change'));
+  });
+</script>
+
+</body>
+</html>

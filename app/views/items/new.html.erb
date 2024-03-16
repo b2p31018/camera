@@ -1,0 +1,17 @@
+<% provide(:title, '新規登録') %>
+
+<h1>新規登録</h1>
+
+<div class="row">
+  <div class="col-md-6 col-md-offset-3">
+    <%= form_for [@user, @item] do |f| %>
+      <%= render 'shared/error_item_messages' %>
+      <div class="form-group">
+        <%= f.label :item_name %>
+        <%= f.text_field :item_name, class: 'form-control', placeholder: "商品名を入力してください" %>
+      </div>
+      
+      <%= f.submit '登録', class: "btn btn-lg btn-dark", style: "color: black; border-color: black;"  , style: "font-size: 1.25rem;" %>
+    <% end %>
+  </div>
+</div>

@@ -1,0 +1,14 @@
+<% provide(:title, 'Sign up') %>
+<% provide(:class_text, 'signup') %>
+<% provide(:button_text, '新規作成') %>
+
+<div class="jumbotron jumbotron-fluid login-page" style="background-image: url('<%= asset_path('top.jpg') %>'); background-size: cover;">
+  <div class="container">
+    <div class="row">
+      <div class="col-md-6 offset-md-3">
+        <h1 class="display-4 text-center text-white mb-4">新規作成</h1>
+        <%= render 'form' %>
+      </div>
+    </div>
+  </div>
+</div>

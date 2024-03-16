@@ -1,0 +1,78 @@
+<% provide(:title, '配送先登録') %>
+
+<h1>配送先登録</h1>
+
+<div class="row">
+  <div class="col-md-6 col-md-offset-3">
+    <%= form_for [@user, @item] do |f| %>
+      <%= render 'shared/error_item_messages' %>
+
+      <div class="form-group">
+        <%= f.label :buyer %>
+        <%= f.text_field :buyer, class: 'form-control', id: 'item_buyer' %>
+      </div>
+
+      <div class="form-group">
+        <%= f.label :zipcode %>
+        <button type="button" onclick="getAddressFromZip()", class: "btn btn-lg btn-dark", style: "color: black; border-color: black;" >検索</button>
+        <%= f.text_field :zipcode, class: 'form-control', id: 'item_zipcode' %>
+      </div>
+
+      <div class="form-group">
+        <%= f.label :address1 %>
+        <%= f.text_field :address1, class: 'form-control', id: 'item_address1' %>
+      </div>
+
+      <div class="form-group">
+        <%= f.label :address2 %>
+        <%= f.text_field :address2, class: 'form-control', id: 'item_address2' %>
+      </div>
+
+      <div class="form-group">
+        <%= f.label :address3 %>
+        <%= f.text_field :address3, class: 'form-control' %>
+      </div>
+
+      <div class="form-group">
+        <%= f.label :banchi %>
+        <%= f.text_field :banchi, class: 'form-control' %>
+      </div>
+
+      <div class="form-group">
+        <%= f.label :tatemono_name %>
+        <%= f.text_field :tatemono_name, class: 'form-control' %>
+      </div>
+
+      <div class="form-group">
+        <%= f.label :room_num %>
+        <%= f.text_field :room_num, class: 'form-control' %>
+      </div>
+
+      <div class="form-group">
+        <%= f.label :tel %>
+        <%= f.text_field :tel, class: 'form-control' %>
+      </div>
+
+      <%= f.submit '登録', class: "btn btn-lg btn-dark", style: "color: black; border-color: black;" %>
+    <% end %>
+  </div>
+</div>
+
+<script>
+  function getAddressFromZip() {
+    var zip = document.getElementById('item_zipcode').value;
+    zip = zip.replace('-', '');
+    if (zip.length === 7) {
+      fetch('https://api.zipaddress.net/?zipcode=' + zip)
+        .then(response => response.json())
+        .then(data => {
+          document.getElementById('item_address1').value = data.data.pref;
+          document.getElementById('item_address2').value = data.data.city;
+          document.getElementById('item_address3').value = data.data.town;
+        })
+        .catch(error => console.error('Error:', error));
+    }
+  }
+
+  document.getElementById('item_zipcode').addEventListener('change', getAddressFromZip);
+</script>

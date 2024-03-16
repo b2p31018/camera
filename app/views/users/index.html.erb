@@ -1,0 +1,43 @@
+<% provide(:title, 'All Users') %>
+<div class="chalkboard" style="background-color: #24603c; padding-bottom: 30px;">
+  <div class="container">
+    <h1 class="chalkboard-heading" style="font-size: 32px; font-weight: bold; color: #fff; text-align: center; text-transform: uppercase; letter-spacing: 3px;">外注管理システム利用者一覧表</h1>
+    <div class="row">
+      <div class="col-md-10 col-md-offset-1">
+        <%= will_paginate %>
+        <div class="table-responsive text-center">
+          <table class="table table-hover chalkboard-table" id="table-users" style="background-color: transparent; border-collapse: separate; border-spacing: 8px; border: 2px solid #fff; border-radius: 8px;">
+            <thead class="thead-dark">
+              <tr>
+                <th style="font-size: 18px; font-weight: bold;"><%= User.human_attribute_name :name %></th>
+                <th style="font-size: 18px; font-weight: bold;">商品登録件数</th>
+                <th style="font-size: 18px; font-weight: bold;">配送依頼中件数</th>
+                <th style="font-size: 18px; font-weight: bold;">アクション</th>
+              </tr>
+            </thead>
+            <tbody>
+              <% @users.each do |user| %>
+                <% unless user.admin? %>
+                  <tr style="background-color: transparent;">
+                    <td style="font-size: 20px; font-weight: bold;"><%= link_to user.name, user_path(user), class: "chalkboard-link" %></td>
+                    <td style="font-size: 20px; font-weight: bold;"><%= user.items.count %></td>
+                    <td style="font-size: 20px; font-weight: bold;"><%= user.items.where(status: '依頼中').count %></td>
+                    <td>
+                      <% if current_user.admin? && !current_user?(user) %>
+                        <%= link_to "削除", user, data: { turbo_method: :delete, confirm: "削除してよろしいですか？" }, class: "btn btn-danger btn-sm" %>
+                      <% end %>
+                    </td>
+                  </tr>
+                <% end %>
+              <% end %>
+            </tbody>
+          </table>
+        </div>
+        <%= will_paginate %>
+      </div>
+    </div>
+  </div>
+</div>
+<footer class="footer" style="text-align: center;">
+  <img src="<%= asset_path('chalkboard-eraser.png') %>" alt="Chalkboard Eraser" style="max-width: 100%; height: auto;">
+</footer>

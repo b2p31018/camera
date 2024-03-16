@@ -1,0 +1,26 @@
+<% provide(:title, "ログイン") %>
+<div class="jumbotron jumbotron-fluid login-page" style="background-image: url('<%= asset_path('top.jpg') %>'); background-size: cover;">
+  <div class="container">
+    <div class="row">
+      <div class="col-md-6 offset-md-3">
+        <h1 class="display-4 text-center text-white mb-4">ログイン</h1>
+        <%= form_with(scope: :session, url: login_path, local: true, html: { class: "login-form" }) do |f| %>
+          <div class="form-group">
+            <%= f.label :email, "メールアドレス", class: "text-white" %>
+            <%= f.email_field :email, class: "form-control", placeholder: "メールアドレスを入力してください" %>
+          </div>
+          <div class="form-group">
+            <%= f.label :password, "パスワード", class: "text-white" %>
+            <%= f.password_field :password, class: "form-control", placeholder: "パスワードを入力してください" %>
+          </div>
+          <div class="form-group form-check">
+            <%= f.check_box :remember_me, id: "remember-me", class: "form-check-input" %>
+            <%= f.label :remember_me, "ログイン情報を記憶する", class: "form-check-label text-white" %>
+          </div>
+          <%= f.submit "ログイン", class: "btn btn-lg btn-dark", style: "color: black; border-color: black;" , style: "font-size: 1.25rem;" %>
+        <% end %>
+        <p class="text-center text-white mt-3">ユーザー登録がまだの場合は <%= link_to "こちら", signup_path %></p>
+      </div>
+    </div>
+  </div>
+</div>

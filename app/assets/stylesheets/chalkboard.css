@@ -1,0 +1,23 @@
+/* chalkboard.css */
+
+.chalkboard {
+  background-color: black;
+  padding: 20px;
+  color: white;
+}
+
+.chalkboard-heading {
+  font-size: 24px;
+}
+
+.chalkboard-table {
+  background-color: rgba(0, 0, 0, 0.5);
+}
+
+.chalkboard-link {
+  color: white;
+}
+
+.chalkboard-link:hover {
+  text-decoration: underline;
+}
